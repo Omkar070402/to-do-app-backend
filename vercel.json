@@ -13,8 +13,8 @@
       }
     ],
     "env": {
-      "MONGO_URI": "@mongo_uri",
-      "SECRET_KEY": "@secret_key"
+      "MONGO_URI": "mongodb+srv://omkarseshadri007:Omkar%400704@cluster0.tnj3f.mongodb.net/to-do-app?retryWrites=true&w=majority",
+      "SECRET_KEY": "to-do-app"
     }
   }
   
