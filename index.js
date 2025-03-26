@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8080
 
 app.use(express.json())
 app.use(cors({
-    origin: ["http://localhost:5173", "https://to-do-app-frontend-murex-two.vercel.app/"],  // Add your frontend URL here
+    origin: ["http://localhost:5173", "https://to-do-app-frontend-murex-two.vercel.app"],  // Add your frontend URL here
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
 }));
