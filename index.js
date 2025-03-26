@@ -10,24 +10,20 @@ const app = express()
 const PORT = process.env.PORT || 8080
 
 app.use(express.json())
-app.use(cors({
-    origin: ["http://localhost:5173", "https://to-do-app-frontend-murex-two.vercel.app"],  // Add your frontend URL here
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true
-}));
+app.use(cors())
 
 // db connection
 connectDB()
 
-app.use('/api/v1/user',userRouter)
-app.use('/api/v1/task',taskRouter)
+app.use('/api/v1/user', userRouter)
+app.use('/api/v1/task', taskRouter)
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('API working')
 })
 
-app.listen(PORT,()=>{
-    console.log('server is running on port :',PORT);
-    
+app.listen(PORT, () => {
+    console.log('server is running on port :', PORT);
+
 })
 
