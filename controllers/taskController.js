@@ -28,8 +28,9 @@ const addTask = async (req,res) =>{
 
 const getTask = async (req,res)=>{
     try{
+        const userId = req.user.id
         
-        const getAllTask = await Task.find()
+        const getAllTask = await Task.find({userId})
         res.json({success : true, error :false , data : getAllTask})
 
     }catch(error){
