@@ -8,7 +8,7 @@ const addTask = async (req,res) =>{
     const {task,description,date,priority} = req.body
 
     const newTask = new Task({
-        task,description,date :new Date(date).toISOString().split('T')[0],priority
+        task,description,date :new Date(date).toISOString().split('T')[0],priority,userId: req.user.id
     })
 
     const saveTask = await newTask.save()
@@ -29,7 +29,7 @@ const addTask = async (req,res) =>{
 const getTask = async (req,res)=>{
     try{
         const userId = req.user.id
-        
+
         const getAllTask = await Task.find({userId})
         res.json({success : true, error :false , data : getAllTask})
 
@@ -37,7 +37,7 @@ const getTask = async (req,res)=>{
         console.log(error);
         res.json({success : false , error : true })
         
-
+236
     }
 }
 
