@@ -1,66 +1,75 @@
 import mongoose from "mongoose";
 import Task from "../models/taskModel.js";
 
-const addTask = async (req,res) =>{
+const addTask = async (req, res) => {
+    try {
 
-   try{
+        console.log("Received request body:", req.body);
 
-   
 
-    const {task,description,date,priority} = req.body
+        console.log("User ID from token:", req.user?.id); // ✅ Debugging step
+        if (!req.user?.id) {
+            return res.status(401).json({ success: false, message: "Unauthorized access" });
+        }
 
-    const newTask = new Task({
-        task,description,date :new Date(date).toISOString().split('T')[0],priority
-    })
+        const { task, description, date, priority } = req.body;
 
-    const saveTask = await newTask.save()
+        const newTask = new Task({
+            task,
+            description,
+            date: new Date(date),
+            priority,
+            userId: req.user.id,
+        });
 
-    res.json({
-        success : true , error : false , data : saveTask , message : 'Task Added'
-    })
-}catch(error){
-    console.log(error.message);
-    res.json({
-        success : false , message : error.message
-    })
-    
-   }
+        const saveTask = await newTask.save();
 
-}
+        res.json({
+            success: true,
+            error: false,
+            data: saveTask,
+            message: "Task Added",
+        });
+    } catch (error) {
+        console.log("Error adding task:", error.message);
+        res.json({ success: false, message: error.message });
+    }
+};
 
-const getTask = async (req,res)=>{
-    try{
-        const {id} = req.params
 
-        const getAllTask = await Task.find({id})
-        res.json({success : true, error :false , data : getAllTask})
+const getTask = async (req, res) => {
+    try {
 
-    }catch(error){
+        const userId = req.user.id;
+        const getAllTask = await Task.find({ userId })
+        res.json({ success: true, error: false, data: getAllTask })
+
+    } catch (error) {
         console.log(error);
-        res.json({success : false , error : true })
-        
+        res.json({ success: false, error: true })
+
 
     }
 }
 
-const deleteTask = async (req,res) =>{
-    try{
+const deleteTask = async (req, res) => {
+    try {
 
-        const {id} = req.params
+        const { id } = req.params
 
         const deleteNow = await Task.findByIdAndDelete(id)
 
-        
+
         if (!deleteNow) {
             return res.status(404).json({ success: false, error: true, message: "Task not found" });
         }
 
-        res.json({succces : true , error : false , message : 'Task is Deleted'})
+        res.json({ succces: true, error: false, message: 'Task is Deleted' })
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
-        res.json({success : false , message : error.message})
-        
+        res.json({ success: false, message: error.message })
+
 
     }
 }
@@ -82,4 +91,4 @@ const completeTask = async (req, res) => {
 
 
 
-export {addTask,getTask,deleteTask,completeTask}
+export { addTask, getTask, deleteTask, completeTask }

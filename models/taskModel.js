@@ -16,8 +16,11 @@ const taskSchema = mongoose.Schema({
     },
     priority : {
         type : String,
-        required : true
+        required : true,
+        default : 'Medium'
     },
+    
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true } ,
    
     completed: { type: Boolean, default: false }
 })
