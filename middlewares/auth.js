@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken'
+
 const authMiddleware = (req, res, next) => {
     console.log("🔍 Incoming Request Headers:", req.headers); // Debugging line
 
@@ -12,9 +14,9 @@ const authMiddleware = (req, res, next) => {
     console.log("✅ Extracted Token:", token); // Debugging line
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decoded;
-        console.log("✅ Token Verified, User ID:", decoded.userId); // Debugging line
+        console.log("✅ Token Verified, User ID:", decoded.id); // Debugging line
         next();
     } catch (error) {
         console.log("❌ Token verification failed:", error.message);
