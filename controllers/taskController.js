@@ -5,10 +5,12 @@ const addTask = async (req,res) =>{
 
    try{
 
+   
+
     const {task,description,date,priority} = req.body
 
     const newTask = new Task({
-        task,description,date :new Date(date).toISOString().split('T')[0],priority,userId: req.user.id
+        task,description,date :new Date(date).toISOString().split('T')[0],priority
     })
 
     const saveTask = await newTask.save()
